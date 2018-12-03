@@ -1,0 +1,13 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>render</title>
+    </head>
+    <body>
+        <p>学生名单</p>
+        {% for info in infos %}
+        <p>{{info.id}}&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp{{info.stu_id}}&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp{{info.money_count}}</p>
+        <br>
+        {% endfor %}
+    </body>
+</html>
