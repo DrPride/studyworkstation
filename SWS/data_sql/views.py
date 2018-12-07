@@ -8,17 +8,14 @@ from django.db import transaction
 
 # restful_api
 from data_sql.models import MainBasicTable,Student
-from data_sql.serializers import MainBasicTableSerializer
+from data_sql.serializers import MainBasicTableSerializer, StudentSerializer
 
 
 from django.http import HttpResponse
-import os
-import pymysql
+# import os
+# import pymysql
 
 # Create your views here.
-
-
-
 def index(request):
     return render(request,"index.html", locals())
 
@@ -82,40 +79,41 @@ class NationRewardList(generics.ListCreateAPIView):
     serializer_class = NationRewardSerializer
 '''
 
-
 class MainBasicTableList(generics.ListCreateAPIView):
     serializer_class = MainBasicTableSerializer
 
 
     def get_queryset(self):
         queryset = MainBasicTable.objects.all()
+        # print(connection.queries)
         #filter_fields = ('stu_id', 'stu_name', 'stu_type', 'monet_count', 'money_year', 'money_month', 'money_type', 'money_organization')
         query_list = ['stu_id', 'stu_name', 'stu_sex','stu_college',
-        'stu_enrollment','stu_type', 'monet_count', 'money_year', 
-        'money_month', 'money_type', 'money_organization']
+        'stu_enrollment','stu_class','stu_type', 'monet_count', 'money_year', 
+        'money_month', 'money_type', 'money_organization', 'money_name']
          
         query_res = self.request.GET.dict()
         query_key = list(query_res.keys())
         #print(query_key)
+        '''
+        if query_res.has_key('offset'):
+            query_res.pop('offset')
+            '''
+        
         for i in query_key:
+            if i not in query_list:
+                query_res.pop(i)
+                continue
             query_res[i+'__contains'] = query_res.pop(i)
         
-        print(query_key,query_res)
+        #print(query_key,query_res)
+        
+        # print(connection.queries)
         if query_res is not None:
             queryset = queryset.filter(**query_res)
-        #str_query = query_res['stu_name']
-        #queryset = queryset.filter(stu_name__icontains='易')
-        # 事实证明queryset的模糊查询是支持的，说明是传入参数的方式不对
-        #queryset = queryset.filter(stu_name__icontains ='易')
-        #print(str_query)
-        #print(query_res['stu_name__icontains'])
         return queryset
         
-        
-
-
-    
-
-
-
-
+#import gc
+class StudentList(generics.ListCreateAPIView):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()#.iterator()
+    #print(queryset.explain(ver))

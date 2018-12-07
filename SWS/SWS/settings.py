@@ -25,7 +25,7 @@ SECRET_KEY = 'v4gb&!0a2l4d*cr)#&^k_d_z^$#ecrkk%ga%9-d7a(m%dptg^r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 # log the sql
+'''
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -61,6 +62,7 @@ LOGGING = {
         },
     }
 }
+'''
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,7 +96,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'SWS.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 50  # 这是每页显示的数目
+
 }
 
 
@@ -135,7 +140,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-US'
+LANGUAGE_CODE = 'zh-hans'
+
+#LANGUAGE_CODE = 'en_US'
 
 TIME_ZONE = 'Asia/Shanghai'
 

@@ -17,7 +17,7 @@ class NationRewardSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = {'stu_id','stu_sex','stu_enrollment', 'stu_college'}
+        fields = ['stu_id','stu_sex','stu_enrollment', 'stu_college', 'stu_type']
 
 class MainBasicTableSerializer(serializers.ModelSerializer):
     
