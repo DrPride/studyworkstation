@@ -119,19 +119,19 @@ class DjangoSession(models.Model):
 
 
 class MainBasicTable(models.Model):
-    stu_id = models.CharField(max_length=20, blank=True, null=True)
-    stu_name = models.CharField(max_length=16, blank=True, null=True)
-    stu_type = models.CharField(max_length=8, blank=True, null=True)
-    stu_sex = models.CharField(max_length=2, blank=True, null=True)
-    stu_college = models.CharField(max_length=32, blank=True, null=True)
-    stu_enrollment = models.IntegerField(blank=True, null=True)
-    stu_class = models.CharField(max_length=48, blank=True, null=True)
-    money_count = models.IntegerField(blank=True, null=True)
-    money_year = models.IntegerField(blank=True, null=True)
-    money_month = models.CharField(max_length=4, blank=True, null=True)
-    money_type = models.CharField(max_length=8, blank=True, null=True)
-    money_organization = models.CharField(max_length=16, blank=True, null=True)
-    money_name = models.CharField(max_length=64, blank=True, null=True)
+    stu_id = models.CharField(max_length=20, blank=True, null=True, verbose_name='学号')
+    stu_name = models.CharField(max_length=16, blank=True, null=True, verbose_name='姓名')
+    stu_type = models.CharField(max_length=8, blank=True, null=True, verbose_name='学生类型')
+    stu_sex = models.CharField(max_length=2, blank=True, null=True, verbose_name='性别')
+    stu_college = models.CharField(max_length=32, blank=True, null=True, verbose_name='院系')
+    stu_enrollment = models.IntegerField(blank=True, null=True, verbose_name='班级')
+    stu_class = models.CharField(max_length=48, blank=True, null=True, verbose_name='入学年份')
+    money_count = models.IntegerField(blank=True, null=True, verbose_name='金额')
+    money_year = models.IntegerField(blank=True, null=True, verbose_name='发放年份')
+    money_month = models.CharField(max_length=4, blank=True, null=True, verbose_name='发放月份')
+    money_type = models.CharField(max_length=8, blank=True, null=True, verbose_name='资金类型')
+    money_organization = models.CharField(max_length=16, blank=True, null=True, verbose_name='发放组织')
+    money_name = models.CharField(max_length=64, blank=True, null=True, verbose_name='资金名称')
 
     class Meta:
         managed = True
@@ -181,13 +181,13 @@ class NationSupport(models.Model):
 
 
 class Student(models.Model):
-    stu_id = models.CharField(max_length=20, blank=True, null=True)
-    stu_name = models.CharField(max_length=16, blank=True, null=True)
-    stu_type = models.CharField(max_length=8, blank=True, null=True)
-    stu_sex = models.CharField(max_length=2, blank=True, null=True)
-    stu_college = models.CharField(max_length=32, blank=True, null=True)
-    stu_enrollment = models.IntegerField(blank=True, null=True)
-    stu_class = models.CharField(max_length=48, blank=True, null=True)
+    stu_id = models.CharField(max_length=20, blank=True, null=True, verbose_name='学号')
+    stu_name = models.CharField(max_length=16, blank=True, null=True, verbose_name='姓名')
+    stu_type = models.CharField(max_length=8, blank=True, null=True, verbose_name='学生类型')
+    stu_sex = models.CharField(max_length=2, blank=True, null=True, verbose_name='性别')
+    stu_college = models.CharField(max_length=32, blank=True, null=True, verbose_name='院系')
+    stu_enrollment = models.IntegerField(blank=True, null=True, verbose_name='入学年份')
+    stu_class = models.CharField(max_length=48, blank=True, null=True, verbose_name='班级')
 
     class Meta:
         managed = True
