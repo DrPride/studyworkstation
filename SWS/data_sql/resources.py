@@ -22,6 +22,16 @@ class MainBasicTableResource(resources.ModelResource):
 		#fields = ['学号', '姓名',  '金额', '发放年份', '发放月份', '资金类型', '发放组织', '资金名称' ]
 
 class StudentResource(resources.ModelResource):
+	stu_id = fields.Field(attribute='stu_id', column_name="学号")
+	stu_name = fields.Field(attribute='stu_name', column_name="姓名")
+	stu_type = fields.Field(attribute='stu_type', column_name="学生类型")
+	stu_sex = fields.Field(attribute='stu_sex', column_name="性别")
+	stu_college = fields.Field(attribute='stu_college', column_name="院系")
+	stu_enrollment = fields.Field(attribute='stu_name', column_name="入学年份")
+	stu_class = fields.Field(attribute='stu_class', column_name="班级")
+
+
 	class Meta:
 		model = Student
-		fields = ('学号','姓名','性别','院系','班级')
+		fields = ['stu_id', 'stu_name', 'stu_type', 'stu_sex', 'stu_college', 'stu_class', 'stu_enrollment']
+		# fields = ('学号','姓名','性别','院系','班级')

@@ -4,6 +4,7 @@ from data_sql import views
 
 urlpatterns = [
     path('restful/', views.MainBasicTableList.as_view()),
+    path('graphic_data/', views.MainBasicTableGraphic.as_view()),
     path('stu_restful/', views.StudentList.as_view()),
     # path('restful/<>'),
     path('upload/', views.excel_upload),

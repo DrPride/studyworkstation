@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from data_sql.models import  MainBasicTable, Student#Sixmonth, NationReward, 
+from data_sql.models import  MainBasicTable, Student #Sixmonth, NationReward, 
 
 '''
 class sixmonthSerializer(serializers.ModelSerializer):
@@ -19,6 +19,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['stu_id','stu_sex','stu_enrollment', 'stu_college', 'stu_type']
 
+
+
 class MainBasicTableSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -26,4 +28,10 @@ class MainBasicTableSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MainBasicTableGraphicSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField(label='count', read_only=True)
+
+    class Meta:
+        model = MainBasicTable
+        fields = ['stu_type','money_type','money_name', 'count']
 

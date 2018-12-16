@@ -124,8 +124,8 @@ class MainBasicTable(models.Model):
     stu_type = models.CharField(max_length=8, blank=True, null=True, verbose_name='学生类型')
     stu_sex = models.CharField(max_length=2, blank=True, null=True, verbose_name='性别')
     stu_college = models.CharField(max_length=32, blank=True, null=True, verbose_name='院系')
-    stu_enrollment = models.IntegerField(blank=True, null=True, verbose_name='班级')
-    stu_class = models.CharField(max_length=48, blank=True, null=True, verbose_name='入学年份')
+    stu_enrollment = models.IntegerField(blank=True, null=True, verbose_name='入学年份')
+    stu_class = models.CharField(max_length=48, blank=True, null=True, verbose_name='班级')
     money_count = models.IntegerField(blank=True, null=True, verbose_name='金额')
     money_year = models.IntegerField(blank=True, null=True, verbose_name='发放年份')
     money_month = models.CharField(max_length=4, blank=True, null=True, verbose_name='发放月份')
@@ -135,6 +135,7 @@ class MainBasicTable(models.Model):
 
     class Meta:
         managed = True
+        verbose_name_plural = '资金发放表单'
         db_table = 'main_basic_table'
 
 
@@ -191,4 +192,5 @@ class Student(models.Model):
 
     class Meta:
         managed = True
+        verbose_name_plural = '学生信息表'
         db_table = 'student'

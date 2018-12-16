@@ -4,11 +4,12 @@ from rest_framework import generics
 # Import into database
 import xlrd
 from django.db import transaction
+from django.db.models import Count
 #from drf_multiple_model.views import ObjectMultipleModelAPIView
 
 # restful_api
 from data_sql.models import MainBasicTable,Student
-from data_sql.serializers import MainBasicTableSerializer, StudentSerializer
+from data_sql.serializers import MainBasicTableSerializer, StudentSerializer, MainBasicTableGraphicSerializer
 
 
 from django.http import HttpResponse
@@ -117,3 +118,17 @@ class StudentList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
     queryset = Student.objects.all()#.iterator()
     #print(queryset.explain(ver))
+
+
+class MainBasicTableGraphic(generics.ListCreateAPIView):
+    serializer_class = MainBasicTableGraphicSerializer
+
+    def get_queryset(self):
+        query_res = self.request.GET.dict()
+        money_year = query_res['money_year']
+        queryset = MainBasicTable.objects.filter(money_year=money_year).values('money_name').annotate(count=Count('money_name'))
+        for i in queryset:
+            temp = MainBasicTable.objects.filter(money_name=i['money_name'])[0]
+            i['stu_type'] = temp.stu_type
+            i['money_type'] = temp.money_type
+        return queryset
