@@ -31,13 +31,12 @@ def CompleteTheData(modeladmin, request, queryset):
 CompleteTheData.short_description = '填充学生基本信息'
 
 
-class StudentAdmin(ImportExportModelAdmin):
+class StudentAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 	list_display = ['stu_id', 'stu_name', 'stu_type', 'stu_sex','stu_college','stu_enrollment']
-
-	#form = TheStudentDownloadButton
+	raw_id_fields = ("stu_id",)
 
 	list_display_links = ['stu_id']
-	search_fields = ('stu_id', 'stu_enrollment')
+	search_fields = ('stu_id', 'stu_name', 'stu_type', 'stu_sex','stu_college','stu_enrollment')
 	resource_class = StudentResource
 
 
@@ -47,14 +46,14 @@ class MBTAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 	# 需要显示的字段信息 
 	list_display = ('stu_id', 'stu_name','money_name','money_count', 'money_year', 'money_month')
 
+	raw_id_fields = ("stu_id",)
 	list_display_links = ['stu_id']
 
 	list_editable = [ 'stu_name','money_name','money_count', 'money_year', 'money_month']
 
 	search_fields = ('stu_id', 'stu_name','money_name','money_count', 'money_year', 'money_month')
 	
-	actions = [CompleteTheData]
-
+	#actions = [CompleteTheData]
 
 	resource_class = MainBasicTableResource
 

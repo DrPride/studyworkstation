@@ -88,10 +88,8 @@ class MainBasicTableList(generics.ListCreateAPIView):
         queryset = MainBasicTable.objects.all()
         # print(connection.queries)
         #filter_fields = ('stu_id', 'stu_name', 'stu_type', 'monet_count', 'money_year', 'money_month', 'money_type', 'money_organization')
-        query_list = ['stu_id', 'stu_name', 'stu_sex','stu_college',
-        'stu_enrollment','stu_class','stu_type', 'monet_count', 'money_year', 
-        'money_month', 'money_type', 'money_organization', 'money_name']
-         
+        query_list_mbt = [ 'stu_name',  'monet_count', 'money_year', 'money_month', 'money_type', 'money_organization', 'money_name']
+        query_list_stu =  ['stu_id','stu_sex','stu_college','stu_enrollment','stu_class','stu_type']
         query_res = self.request.GET.dict()
         query_key = list(query_res.keys())
         #print(query_key)
@@ -99,18 +97,28 @@ class MainBasicTableList(generics.ListCreateAPIView):
         if query_res.has_key('offset'):
             query_res.pop('offset')
             '''
-        
+        #queryset = Student.objects.all()
         for i in query_key:
-            if i not in query_list:
+            if i in query_list_stu:
+                query_res['stu_id__'+i+'__contains'] = query_res.pop(i)
+                continue
+            if i not in query_list_mbt:
                 query_res.pop(i)
                 continue
             query_res[i+'__contains'] = query_res.pop(i)
         
         #print(query_key,query_res)
         
+        #print(query_res)
         # print(connection.queries)
         if query_res is not None:
             queryset = queryset.filter(**query_res)
+            '''
+            for i in queryset:
+                # 反向查询居然是要小写
+                temp = i.mainbasictable_set.all()
+                i = [j.__dict__ for j in temp]
+            '''
         return queryset
         
 #import gc

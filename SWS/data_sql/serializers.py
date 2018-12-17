@@ -22,11 +22,17 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class MainBasicTableSerializer(serializers.ModelSerializer):
+    stu_id = serializers.CharField(source='stu_id.stu_id')
+    stu_sex = serializers.CharField(source='stu_id.stu_sex')
+    stu_enrollment = serializers.CharField(source='stu_id.stu_enrollment')
+    stu_college = serializers.CharField(source='stu_id.stu_college')
+    stu_type = serializers.CharField(source='stu_id.stu_type')
+
     
     class Meta:
         model = MainBasicTable
         fields = '__all__'
-
+        #fields = ['stu_id', 'stu_sex','stu_enrollment', 'stu_college', 'stu_type']
 
 class MainBasicTableGraphicSerializer(serializers.ModelSerializer):
     count = serializers.IntegerField(label='count', read_only=True)
