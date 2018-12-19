@@ -33,7 +33,7 @@ CompleteTheData.short_description = '填充学生基本信息'
 
 class StudentAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 	list_display = ['stu_id', 'stu_name', 'stu_type', 'stu_sex','stu_college','stu_enrollment']
-	raw_id_fields = ("stu_id",)
+	# raw_id_fields = ("stu_id",)
 
 	list_display_links = ['stu_id']
 	search_fields = ('stu_id', 'stu_name', 'stu_type', 'stu_sex','stu_college','stu_enrollment')
@@ -49,7 +49,7 @@ class MBTAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 	raw_id_fields = ("stu_id",)
 	list_display_links = ['stu_id']
 
-	list_editable = [ 'stu_name','money_name','money_count', 'money_year', 'money_month']
+	#list_editable = [ 'stu_name','money_name','money_count', 'money_year', 'money_month']
 
 	search_fields = ('stu_id', 'stu_name','money_name','money_count', 'money_year', 'money_month')
 	

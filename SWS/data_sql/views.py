@@ -9,8 +9,8 @@ from django.db.models import Count
 
 # restful_api
 from data_sql.models import MainBasicTable,Student
-from data_sql.serializers import MainBasicTableSerializer, StudentSerializer, MainBasicTableGraphicSerializer
-
+from data_sql.serializers import MainBasicTableSerializer, StudentSerializer, MainBasicTableGraphicSerializer,MainBasicTableGraphicYearSerializer,StudentFieldSerializer
+from data_sql.paginations import StandardPagination
 
 from django.http import HttpResponse
 # import os
@@ -80,19 +80,21 @@ class NationRewardList(generics.ListCreateAPIView):
     serializer_class = NationRewardSerializer
 '''
 
+
+
 class MainBasicTableList(generics.ListCreateAPIView):
     serializer_class = MainBasicTableSerializer
-
+    pagination_class = StandardPagination
 
     def get_queryset(self):
         queryset = MainBasicTable.objects.all()
         # print(connection.queries)
         #filter_fields = ('stu_id', 'stu_name', 'stu_type', 'monet_count', 'money_year', 'money_month', 'money_type', 'money_organization')
-        query_list_mbt = [ 'stu_name',  'monet_count', 'money_year', 'money_month', 'money_type', 'money_organization', 'money_name']
+        query_list_mbt = [ 'stu_name',  'money_count', 'money_year', 'money_month', 'money_type', 'money_organization', 'money_name']
         query_list_stu =  ['stu_id','stu_sex','stu_college','stu_enrollment','stu_class','stu_type']
         query_res = self.request.GET.dict()
         query_key = list(query_res.keys())
-        #print(query_key)
+        print(query_key)
         '''
         if query_res.has_key('offset'):
             query_res.pop('offset')
@@ -101,15 +103,15 @@ class MainBasicTableList(generics.ListCreateAPIView):
         for i in query_key:
             if i in query_list_stu:
                 query_res['stu_id__'+i+'__contains'] = query_res.pop(i)
-                continue
-            if i not in query_list_mbt:
+            elif i in query_list_mbt:
+                query_res[i+'__contains'] = query_res.pop(i)
+            else:
                 query_res.pop(i)
-                continue
-            query_res[i+'__contains'] = query_res.pop(i)
+            
+            
         
         #print(query_key,query_res)
         
-        #print(query_res)
         # print(connection.queries)
         if query_res is not None:
             queryset = queryset.filter(**query_res)
@@ -120,10 +122,12 @@ class MainBasicTableList(generics.ListCreateAPIView):
                 i = [j.__dict__ for j in temp]
             '''
         return queryset
+
         
 #import gc
 class StudentList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
+    pagination_class = StandardPagination
     queryset = Student.objects.all()#.iterator()
     #print(queryset.explain(ver))
 
@@ -137,6 +141,32 @@ class MainBasicTableGraphic(generics.ListCreateAPIView):
         queryset = MainBasicTable.objects.filter(money_year=money_year).values('money_name').annotate(count=Count('money_name'))
         for i in queryset:
             temp = MainBasicTable.objects.filter(money_name=i['money_name'])[0]
-            i['stu_type'] = temp.stu_type
+            i['stu_type'] = temp.stu_id.stu_type
             i['money_type'] = temp.money_type
         return queryset
+
+class MainBasicTableGraphicYearList(generics.ListCreateAPIView):
+    serializer_class = MainBasicTableGraphicYearSerializer
+    # pagination_class = StandardPagination
+
+    def get_queryset(self):
+        queryset = MainBasicTable.objects.values('money_year').distinct()
+        return queryset
+
+class StudentQueryParamsList(generics.ListCreateAPIView):
+    serializer_class = StudentFieldSerializer
+
+    def get_queryset(self):
+        query_res = self.request.GET.dict()
+        # print(query_res)
+        if query_res['get_basic'] == '1':
+            queryset = Student.objects.values('stu_enrollment').distinct()
+            return queryset
+        elif query_res['get_basic'] == '2':
+            queryset = Student.objects.values('stu_college').distinct()
+            return queryset
+        elif query_res['get_basic'] == '3':
+            Stu_college = query_res['stu_college']
+            Stu_enrollment = query_res['stu_enrollment']
+            queryset = Student.objects.filter(stu_college=Stu_college).filter(stu_enrollment=Stu_enrollment).values('stu_class').distinct()
+            return queryset
