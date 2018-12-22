@@ -4,7 +4,7 @@ from rest_framework import generics
 # Import into database
 import xlrd
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Sum
 #from drf_multiple_model.views import ObjectMultipleModelAPIView
 
 # restful_api
@@ -138,7 +138,7 @@ class MainBasicTableGraphic(generics.ListCreateAPIView):
     def get_queryset(self):
         query_res = self.request.GET.dict()
         money_year = query_res['money_year']
-        queryset = MainBasicTable.objects.filter(money_year=money_year).values('money_name').annotate(count=Count('money_name'))
+        queryset = MainBasicTable.objects.filter(money_year=money_year).values('money_name').annotate(count=Count('money_name'), money_sum=Sum('money_count'))
         for i in queryset:
             temp = MainBasicTable.objects.filter(money_name=i['money_name'])[0]
             i['stu_type'] = temp.stu_id.stu_type

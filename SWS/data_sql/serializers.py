@@ -48,10 +48,11 @@ class MainBasicTableSerializer(serializers.ModelSerializer):
 class MainBasicTableGraphicSerializer(serializers.ModelSerializer):
     stu_type = serializers.CharField(label='stu_type', read_only=True)
     count = serializers.IntegerField(label='count', read_only=True)
+    money_sum = serializers.IntegerField(label='money_sum', read_only=True)
 
     class Meta:
         model = MainBasicTable
-        fields = ['stu_type','money_type','money_name', 'count']
+        fields = ['stu_type','money_type','money_name', 'count', 'money_sum']
 
 class MainBasicTableGraphicYearSerializer(serializers.ModelSerializer):
     money_year = serializers.IntegerField(label='money_year', read_only=True)
